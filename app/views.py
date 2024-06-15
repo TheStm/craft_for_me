@@ -20,4 +20,6 @@ class UserView(generics.ListCreateAPIView):
     serializer_class = UserSerializer
 
 
-# Create your views here.
+class HomeView(generics.GenericAPIView):
+    def get(self, request):
+        return Response({'message': 'Hello, Welcome to home page'})
