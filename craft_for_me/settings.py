@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-0&230od02$j#!9z9^zp9*8bn9-)1a$%k@t@7-*g40(_c8d5mzh
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['0.0.0.0', '192.168.114.232']
 
 
 # Application definition
@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'app',
     'rest_framework',
     'corsheaders',
+    'rest_framework_simplejwt',
 
 ]
 
@@ -54,7 +55,11 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
 ]
 
-REST_FRAMEWORK = {'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.AllowAny']}
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
 
 CORS_ORIGIN_ALLOW_ALL = True
 
@@ -108,6 +113,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_USER_MODEL = 'app.User'
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/

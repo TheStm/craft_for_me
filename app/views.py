@@ -4,6 +4,12 @@ from rest_framework import generics
 from . models import *
 from . serializer import *
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+
+from rest_framework import status
+from . serializer import MyTokenObtainPairSerializer
+
 
 class UserView(generics.ListCreateAPIView):
     # def get(self, request):
@@ -23,3 +29,19 @@ class UserView(generics.ListCreateAPIView):
 class HomeView(generics.GenericAPIView):
     def get(self, request):
         return Response({'message': 'Hello, Welcome to home page'})
+
+class ProtectedView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        return Response({"message": "This is a protected view"})
+    
+    from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+
+class MyTokenObtainPairView(APIView):
+
+    def post(self, request, *args, **kwargs):
+        serializer = MyTokenObtainPairSerializer(data=request.data)
+        if serializer.is_valid():
+            return Response(serializer.validated_data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
